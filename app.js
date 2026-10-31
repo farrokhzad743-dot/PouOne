@@ -35,7 +35,11 @@
   var baseShareT=shareT.length?shareT[0].content:"",baseShareD=shareD.length?shareD[0].content:"";
   function setShare(t,desc){shareT.forEach(function(m){m.content=t});shareD.forEach(function(m){m.content=desc})}
   var home=$("#home"),pv=$("#pv"),baseTitle=d.title,wasProduct=false,cameFromHome=false,booted=false,savedY=null;
-  function safe(u){return typeof u==="string"&&(/^https:\/\//i.test(u)||/^[\w\-.]+$/.test(u))}
+  function safe(u){
+    var ok=typeof u==="string"&&(/^https:\/\//i.test(u)||/^[\w\-.]+$/.test(u));
+    if(!ok&&u&&window.console)console.warn("PouOne: لینک دانلود باید با https:// شروع شود یا نام فایل کنار index.html باشد:",u);
+    return ok;
+  }
   function el(tag,cls,txt){var n=d.createElement(tag);if(cls)n.className=cls;if(txt)n.textContent=txt;return n}
 
   function fill(id){
@@ -46,7 +50,8 @@
     $("#pv-tag").textContent=card?$(".card__desc",card).textContent:"";
     $("#pv-desc").textContent=p.description;
     var ul=$("#pv-uses");ul.textContent="";
-    p.uses.forEach(function(t){ul.appendChild(el("li","",t))});
+    (p.uses||[]).forEach(function(t){ul.appendChild(el("li","",t))});
+    ul.previousElementSibling.hidden=!(p.uses&&p.uses.length);
     var box=$("#pv-actions");box.textContent="";
     var dl=(cfg.downloads||{})[id]||{};
     [["android","نسخه اندروید"],["windows","نسخه ویندوز"]].forEach(function(o){
@@ -66,20 +71,34 @@
     });
   }
 
+  function readHash(){
+    try{return decodeURIComponent(location.hash.slice(1))}catch(e){return ""}
+  }
+  function known(id){
+    if(!id||id.length>40||!/^[\w-]+$/.test(id))return false;
+    if(Object.prototype.hasOwnProperty.call(P,id))return true;
+    /* اگر products.js لود نشده بود، از روی خود کارت یک صفحه‌ی ساده می‌سازیم */
+    var c=$('.card[data-p="'+id+'"]');
+    if(c){P[id]={name:$(".card__name",c).textContent,description:$(".card__desc",c).textContent,uses:[]};return true}
+    return false;
+  }
+  var lastId="";
   function route(){
-    var id=decodeURIComponent(location.hash.slice(1));
-    if(Object.prototype.hasOwnProperty.call(P,id)){
+    var id=readHash();
+    if(known(id)){
       if(!wasProduct){cameFromHome=booted;savedY=scrollY}
-      home.hidden=true;pv.hidden=false;fill(id);
+      home.hidden=true;pv.hidden=false;fill(id);lastId=id;
       d.title=P[id].name+" | PouOne";if(metaDesc)metaDesc.content=P[id].description;setShare(d.title,P[id].description);
       pv.classList.remove("enter");void pv.offsetWidth;pv.classList.add("enter");
       scrollTo({top:0,behavior:"instant"});
+      if(booted)$("#pv-title").focus({preventScroll:true});
       wasProduct=true;
     }else{
       pv.hidden=true;home.hidden=false;d.title=baseTitle;if(metaDesc)metaDesc.content=baseDesc;setShare(baseShareT,baseShareD);
-      var t=id&&d.getElementById(id);
+      var t=id&&/^[\w-]+$/.test(id)&&d.getElementById(id);
       if(wasProduct&&cameFromHome&&savedY!==null)scrollTo({top:savedY,behavior:"instant"});
       else scrollTo(t?{top:t.getBoundingClientRect().top+scrollY-96,behavior:wasProduct?"instant":"smooth"}:{top:0,behavior:wasProduct?"instant":"smooth"});
+      if(wasProduct&&lastId){var cd=$('.card[data-p="'+lastId+'"]');if(cd)cd.focus({preventScroll:true})}
       wasProduct=false;cameFromHome=false;
     }
   }
@@ -87,6 +106,8 @@
   route();booted=true;
 
   /* «بازگشت»: اگر از صفحه اصلی آمده‌ایم، یک قدم عقب می‌رویم تا تاریخچه دوبل نشود */
+  var skip=$(".skip-link");
+  if(skip)skip.addEventListener("click",function(e){if(!pv.hidden){e.preventDefault();$("#pv-title").focus()}});
   $(".pv__back").addEventListener("click",function(e){
     if(cameFromHome){e.preventDefault();history.back()}
   });
@@ -95,50 +116,73 @@
   var calm=matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
 
-  /* تیتر: ظاهر شدن کلمه‌به‌کلمه */
-  var h1=$(".hero h1");
-  if(h1){
-    if(!calm){
-      var words=h1.textContent.trim().split(/\s+/);h1.textContent="";
-      words.forEach(function(w,i){
-        var o=el("span","w"+(i>=words.length-2?" hl":"")),sp=el("span","",w);
-        sp.style.setProperty("--i",i);o.appendChild(sp);h1.appendChild(o);
-        if(i<words.length-1)h1.appendChild(d.createTextNode(" "));
-      });
-    }
-    h1.classList.add("split");
+  /* نوار پیشرفت اسکرول (بدون خواندن layout در هر فریم) */
+  var bar=$("#progress"),tick=false,maxY=1;
+  function measure(){maxY=Math.max(root.scrollHeight-innerHeight,1)}
+  function prog(){tick=false;bar.style.setProperty("transform","scaleX("+Math.min(scrollY/maxY,1).toFixed(4)+")")}
+  addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(prog)}},{passive:true});
+  addEventListener("resize",measure);addEventListener("load",measure);addEventListener("hashchange",function(){setTimeout(measure,60)});
+  measure();prog();
+
+  /* انیمیشن‌های بی‌نهایت فقط وقتی روی صفحه دیده می‌شوند */
+  var heroVisible=true;
+  if("IntersectionObserver" in window){
+    var vis0=$(".hero__visual"),mq=$(".marquee");
+    var po=new IntersectionObserver(function(es){es.forEach(function(e){
+      var off=!e.isIntersecting;
+      if(e.target===vis0){e.target.classList.toggle("off",off);heroVisible=!off}else e.target.classList.toggle("off",off);
+    })});
+    if(vis0)po.observe(vis0);if(mq)po.observe(mq);
   }
 
-  /* نوار پیشرفت اسکرول */
-  var bar=$("#progress"),tick=false;
-  function prog(){tick=false;var h=root.scrollHeight-innerHeight;bar.style.setProperty("transform","scaleX("+(h>0?Math.min(scrollY/h,1):0).toFixed(4)+")")}
-  addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(prog)}},{passive:true});
-  prog();
-
-  /* ویژه موس (ویندوز/دسکتاپ): پارالکس هیرو، شیب و نور کارت‌ها، دکمه‌های مغناطیسی */
+  /* ویژه موس (ویندوز/دسکتاپ): پارالکس نرم هیرو، شیب و نور کارت‌ها، دکمه‌های مغناطیسی */
   if(fine&&!calm){
-    var vis=$(".hero__visual"),raf=0,nx=0,ny=0;
-    addEventListener("pointermove",function(e){
-      nx=e.clientX/innerWidth-.5;ny=e.clientY/innerHeight-.5;
-      if(raf)return;
-      raf=requestAnimationFrame(function(){raf=0;if(vis&&!home.hidden&&scrollY<innerHeight){vis.style.setProperty("--px",(nx*2).toFixed(3));vis.style.setProperty("--py",(ny*2).toFixed(3))}});
+    var vis=$(".hero__visual"),art=$(".hero__art"),chips=[].slice.call(d.querySelectorAll(".hero__visual .chip"));
+    var ks=chips.map(function(c){return parseFloat(getComputedStyle(c).getPropertyValue("--k"))||0});
+    var tx=0,ty=0,cx=0,cy=0,run=false;
+    function loop(){
+      cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;
+      for(var i=0;i<chips.length;i++)chips[i].style.translate=(cx*ks[i]).toFixed(2)+"px "+(cy*ks[i]).toFixed(2)+"px";
+      art.style.translate=(cx*-8).toFixed(2)+"px "+(cy*-8).toFixed(2)+"px";
+      if((Math.abs(tx-cx)>.002||Math.abs(ty-cy)>.002)&&heroVisible)requestAnimationFrame(loop);else run=false;
+    }
+    if(vis)addEventListener("pointermove",function(e){
+      if(!heroVisible)return;
+      tx=(e.clientX/innerWidth-.5)*2;ty=(e.clientY/innerHeight-.5)*2;
+      if(!run){run=true;requestAnimationFrame(loop)}
     },{passive:true});
+
     d.querySelectorAll(".card").forEach(function(c){
+      var r=null,px=0,py=0,q=0;
+      c.addEventListener("pointerenter",function(){r=c.getBoundingClientRect()});
       c.addEventListener("pointermove",function(e){
-        var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
-        c.style.setProperty("--mx",(x*100).toFixed(1)+"%");c.style.setProperty("--my",(y*100).toFixed(1)+"%");
-        c.style.setProperty("--rx",((.5-y)*7).toFixed(2)+"deg");c.style.setProperty("--ry",((x-.5)*7).toFixed(2)+"deg");
-      });
-      c.addEventListener("pointerleave",function(){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")});
+        if(!r)r=c.getBoundingClientRect();px=e.clientX;py=e.clientY;
+        if(q)return;
+        q=requestAnimationFrame(function(){
+          q=0;var x=(px-r.left)/r.width,y=(py-r.top)/r.height;
+          c.style.setProperty("--mx",(x*100).toFixed(1)+"%");c.style.setProperty("--my",(y*100).toFixed(1)+"%");
+          c.style.setProperty("--rx",((.5-y)*7).toFixed(2)+"deg");c.style.setProperty("--ry",((x-.5)*7).toFixed(2)+"deg");
+        });
+      },{passive:true});
+      c.addEventListener("pointerleave",function(){r=null;c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")});
     });
     d.querySelectorAll(".btn--primary,.btn--tg").forEach(function(b){
+      var r=null;
+      b.addEventListener("pointerenter",function(){r=b.getBoundingClientRect()});
       b.addEventListener("pointermove",function(e){
-        var r=b.getBoundingClientRect();
+        if(!r)return;
         b.style.setProperty("--tx",(((e.clientX-r.left)/r.width-.5)*10).toFixed(1)+"px");
         b.style.setProperty("--ty",(((e.clientY-r.top)/r.height-.5)*8).toFixed(1)+"px");
-      });
-      b.addEventListener("pointerleave",function(){b.style.setProperty("--tx","0px");b.style.setProperty("--ty","0px")});
+      },{passive:true});
+      b.addEventListener("pointerleave",function(){r=null;b.style.setProperty("--tx","0px");b.style.setProperty("--ty","0px")});
     });
+  }
+
+  /* ایمیل: ساخته‌شدن در مرورگر تا ربات‌ها آدرس را از HTML برندارند */
+  var ml=$(".btn--mail");
+  if(ml&&ml.dataset.u){
+    var addr=ml.dataset.u+"@"+ml.dataset.d;
+    ml.href="mailto:"+addr;$(".tg-id",ml).textContent=addr;
   }
 
   $("#year").textContent=new Date().getFullYear();

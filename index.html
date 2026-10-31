@@ -3,8 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>PouOne | ابزارهای هوشمند برای ارتباط میان دستگاه‌ها</title>
-  <meta name="description" content="PouOne مجموعه‌ای از ابزارهای کاربردی برای انتقال فایل، ارتباط VPN و چاپ میان موبایل و ویندوز. محصولات: SharePou، RoutePou، PrintPou و ConnectPou.">
+  <title>PouOne (پوان) | اتصال دستگاه‌ها، انتقال فایل، VPN و چاپ از موبایل</title>
+  <meta name="description" content="PouOne (پوان) مجموعه‌ای از ابزارهای هوشمند برای اتصال دستگاه‌ها: انتقال فایل بین موبایل و ویندوز، VPN اختصاصی اندروید و ویندوز و چاپ مستقیم از موبایل. محصولات پو: SharePou، RoutePou، PrintPou و ConnectPou.">
+  <meta name="keywords" content="پو, پوان, پو وان, PouOne, Pou, اتصال, اتصال دستگاه‌ها, اتصال موبایل به ویندوز, انتقال فایل, انتقال فایل بین موبایل و ویندوز, ارسال فایل از موبایل به کامپیوتر, اشتراک فایل, وی پی ان, VPN, VPN اندروید, VPN ویندوز, VPN اختصاصی, چاپ از موبایل, پرینت از موبایل, پرینتر ویندوز, SharePou, RoutePou, PrintPou, ConnectPou, شیرپو, روت‌پو, پرینت‌پو, کانکت‌پو, نرم‌افزار ویندوز, برنامه اندروید, دانلود">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="PouOne">
   <meta name="theme-color" content="#e9effa">
   <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -12,15 +15,16 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fa_IR">
   <meta property="og:site_name" content="PouOne">
-  <meta property="og:title" content="PouOne | ابزارهای هوشمند برای ارتباط میان دستگاه‌ها">
-  <meta property="og:description" content="انتقال فایل، ارتباط VPN و چاپ میان موبایل و ویندوز.">
+  <meta property="og:title" content="PouOne (پوان) | اتصال دستگاه‌ها، انتقال فایل، VPN و چاپ از موبایل">
+  <meta property="og:description" content="انتقال فایل، VPN اختصاصی و چاپ از موبایل؛ اتصال ساده و سریع میان اندروید و ویندوز.">
   <meta property="og:image" content="og-image.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Vazirmatn:wght@300..800&amp;display=swap">
+  <link rel="stylesheet" id="gfont" media="print" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Vazirmatn:wght@400..800&amp;display=swap">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Vazirmatn:wght@400..800&amp;display=swap"></noscript>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,7 +32,7 @@
   <div class="bg" aria-hidden="true"><i class="bg__a"></i><i class="bg__b"></i><i class="bg__c"></i></div>
 
   <header class="nav" id="nav"><div class="container"><div class="nav__bar glass">
-    <a class="brand" href="#top" aria-label="PouOne"><img class="logo" src="pouone-logo.webp" width="1198" height="283" alt="PouOne"></a>
+    <a class="brand" href="#top" aria-label="PouOne"><img class="logo" src="pouone-logo.webp" width="600" height="142" alt="PouOne" fetchpriority="high"></a>
     <nav class="nav__links" aria-label="ناوبری اصلی"><a href="#products">محصولات</a><a href="#about">درباره ما</a><a href="#contact">ارتباط با ما</a></nav>
     <button class="theme" id="theme" type="button" aria-label="تغییر حالت تیره/روشن">
       <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -95,10 +99,14 @@
     <section class="section" id="contact" aria-labelledby="contact-title"><div class="container">
       <div class="contact glass reveal">
         <h2 id="contact-title">ارتباط با ما</h2>
-        <p>برای پرسش، پیشنهاد یا گزارش مشکل، از طریق تلگرام با ما در ارتباط باشید.</p>
+        <p>برای پرسش، پیشنهاد یا گزارش مشکل، از طریق تلگرام یا ایمیل با ما در ارتباط باشید.</p>
         <a class="btn btn--tg" href="https://t.me/DellFarsi" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
           <span>پیام در تلگرام</span><span class="tg-id" lang="en" dir="ltr">@DellFarsi</span>
+        </a>
+        <a class="btn btn--mail" href="mailto:farrokhzad743@gmail.com">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <span>ارسال ایمیل</span><span class="tg-id" lang="en" dir="ltr">farrokhzad743@gmail.com</span>
         </a>
       </div>
     </div></section>

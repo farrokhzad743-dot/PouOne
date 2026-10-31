@@ -4,6 +4,10 @@
   root.classList.add("js");
   var $=function(s,c){return(c||d).querySelector(s)};
 
+  /* فونت گوگل بدون مسدود کردن نمایش صفحه */
+  var gf=d.getElementById("gfont");
+  if(gf){if(gf.sheet)gf.media="all";else gf.addEventListener("load",function(){gf.media="all"})}
+
   /* حالت تیره/روشن (پیش‌فرض: روشن) */
   var KEY="pouone-theme",saved=null;
   try{saved=localStorage.getItem(KEY)}catch(e){}
@@ -26,6 +30,7 @@
   }else els.forEach(function(el){el.classList.add("in")});
 
   /* صفحه محصول (مسیر جدید: #نام-محصول) */
+  var metaDesc=$('meta[name="description"]'),baseDesc=metaDesc?metaDesc.content:"";
   var home=$("#home"),pv=$("#pv"),baseTitle=d.title,wasProduct=false,cameFromHome=false,booted=false,savedY=null;
   function safe(u){return typeof u==="string"&&(/^https:\/\//i.test(u)||/^[\w\-.]+$/.test(u))}
   function el(tag,cls,txt){var n=d.createElement(tag);if(cls)n.className=cls;if(txt)n.textContent=txt;return n}
@@ -63,12 +68,12 @@
     if(Object.prototype.hasOwnProperty.call(P,id)){
       if(!wasProduct){cameFromHome=booted;savedY=scrollY}
       home.hidden=true;pv.hidden=false;fill(id);
-      d.title=P[id].name+" | PouOne";
+      d.title=P[id].name+" | PouOne";if(metaDesc)metaDesc.content=P[id].description;
       pv.classList.remove("enter");void pv.offsetWidth;pv.classList.add("enter");
       scrollTo({top:0,behavior:"instant"});
       wasProduct=true;
     }else{
-      pv.hidden=true;home.hidden=false;d.title=baseTitle;
+      pv.hidden=true;home.hidden=false;d.title=baseTitle;if(metaDesc)metaDesc.content=baseDesc;
       var t=id&&d.getElementById(id);
       if(wasProduct&&cameFromHome&&savedY!==null)scrollTo({top:savedY,behavior:"instant"});
       else scrollTo(t?{top:t.getBoundingClientRect().top+scrollY-96,behavior:wasProduct?"instant":"smooth"}:{top:0,behavior:wasProduct?"instant":"smooth"});

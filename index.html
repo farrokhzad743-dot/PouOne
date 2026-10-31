@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>PouOne (پوان) | اتصال دستگاه‌ها، انتقال فایل، VPN و چاپ از موبایل</title>
   <meta name="description" content="PouOne (پوان) مجموعه‌ای از ابزارهای هوشمند برای اتصال دستگاه‌ها: انتقال فایل بین موبایل و ویندوز، VPN اختصاصی اندروید و ویندوز و چاپ مستقیم از موبایل. محصولات پو: SharePou، RoutePou، PrintPou و ConnectPou.">
-  <meta name="keywords" content="پو, پوان, پو وان, PouOne, Pou, اتصال, اتصال دستگاه‌ها, اتصال موبایل به ویندوز, انتقال فایل, انتقال فایل بین موبایل و ویندوز, ارسال فایل از موبایل به کامپیوتر, اشتراک فایل, وی پی ان, VPN, VPN اندروید, VPN ویندوز, VPN اختصاصی, چاپ از موبایل, پرینت از موبایل, پرینتر ویندوز, SharePou, RoutePou, PrintPou, ConnectPou, شیرپو, روت‌پو, پرینت‌پو, کانکت‌پو, نرم‌افزار ویندوز, برنامه اندروید, دانلود">
+  <meta name="keywords" content="پو, پوان, پو وان, PouOne, Pou, اتصال, اتصال دستگاه‌ها, اتصال موبایل به ویندوز, انتقال فایل, انتقال فایل بین موبایل و ویندوز, ارسال فایل از موبایل به کامپیوتر, اشتراک فایل, وی پی ان, VPN, VPN اندروید, VPN ویندوز, VPN اختصاصی, چاپ از موبایل, پرینت از موبایل, پرینتر ویندوز, SharePou, RoutePou, PrintPou, ConnectPou, شیرپو, روت‌پو, پرینت‌پو, کانکت‌پو, نرم‌افزار ویندوز, برنامه اندروید, دانلود, کانکت پو, پرینت پو, شیر پو, روت پو, برنامه انتقال فایل, برنامه چاپ از موبایل, اتصال گوشی به کامپیوتر, انتقال فایل از گوشی به ویندوز, پرینت از گوشی, VPN اختصاصی اندروید, PouOne Android, PouOne Windows, ابزار ارتباط موبایل و کامپیوتر">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="author" content="PouOne">
+  <meta name="application-name" content="PouOne">
+  <meta name="apple-mobile-web-app-title" content="PouOne">
+  <meta name="format-detection" content="telephone=no">
   <meta name="theme-color" content="#e9effa">
   <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -18,6 +21,13 @@
   <meta property="og:title" content="PouOne (پوان) | اتصال دستگاه‌ها، انتقال فایل، VPN و چاپ از موبایل">
   <meta property="og:description" content="انتقال فایل، VPN اختصاصی و چاپ از موبایل؛ اتصال ساده و سریع میان اندروید و ویندوز.">
   <meta property="og:image" content="og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="PouOne؛ اتصال دستگاه‌ها، انتقال فایل، VPN و چاپ از موبایل">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PouOne (پوان) | اتصال دستگاه‌ها، انتقال فایل، VPN و چاپ از موبایل">
+  <meta name="twitter:description" content="انتقال فایل، VPN اختصاصی و چاپ از موبایل؛ اتصال ساده و سریع میان اندروید و ویندوز.">
+  <meta name="twitter:image" content="og-image.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -29,6 +39,7 @@
 </head>
 <body>
   <a class="skip-link" href="#products">رفتن به محتوای اصلی</a>
+  <div class="progress" id="progress" aria-hidden="true"></div>
   <div class="bg" aria-hidden="true"><i class="bg__a"></i><i class="bg__b"></i><i class="bg__c"></i></div>
 
   <header class="nav" id="nav"><div class="container"><div class="nav__bar glass">
@@ -49,32 +60,40 @@
         <p class="hero__lead">انتقال فایل، ارتباط VPN و چاپ میان موبایل و ویندوز؛ در یک خانواده از نرم‌افزارهای ساده، سریع و پایدار.</p>
         <div class="hero__cta"><a class="btn btn--primary" href="#products">مشاهده محصولات</a><a class="btn btn--glass" href="#contact">ارتباط با ما</a></div>
       </div>
-      <div class="hero__art glass" aria-hidden="true"><img class="logo" src="pouone-mark.webp" width="336" height="243" alt=""></div>
+      <div class="hero__visual" aria-hidden="true">
+        <div class="hero__art glass"><img class="logo" src="pouone-mark.webp" width="336" height="243" alt=""></div>
+        <img class="chip chip--1" src="sharepou.webp" width="384" height="384" alt="">
+        <img class="chip chip--2" src="routepou.webp" width="384" height="384" alt="">
+        <img class="chip chip--3" src="printpou.webp" width="384" height="384" alt="">
+        <img class="chip chip--4" src="connectpou.webp" width="384" height="384" alt="">
+      </div>
     </div></section>
+
+    <div class="marquee" aria-hidden="true"><div class="marquee__track"><span>انتقال فایل</span><span>VPN اختصاصی</span><span>چاپ از موبایل</span><span>اتصال موبایل و ویندوز</span><span>اندروید و ویندوز</span><span>انتقال فایل</span><span>VPN اختصاصی</span><span>چاپ از موبایل</span><span>اتصال موبایل و ویندوز</span><span>اندروید و ویندوز</span><span>انتقال فایل</span><span>VPN اختصاصی</span><span>چاپ از موبایل</span><span>اتصال موبایل و ویندوز</span><span>اندروید و ویندوز</span><span>انتقال فایل</span><span>VPN اختصاصی</span><span>چاپ از موبایل</span><span>اتصال موبایل و ویندوز</span><span>اندروید و ویندوز</span></div></div>
 
     <section class="section" id="products" aria-labelledby="products-title"><div class="container">
       <header class="head reveal"><h2 id="products-title">محصولات</h2></header>
       <ul class="cards" role="list">
         <li class="reveal"><a class="card glass" data-p="sharepou" href="#sharepou">
-          <img class="card__logo" src="sharepou.webp" width="384" height="384" alt="" loading="lazy" decoding="async">
+          <img class="card__logo" src="sharepou.webp" width="384" height="384" alt="لوگوی SharePou" loading="lazy" decoding="async">
           <span class="card__name" lang="en" dir="ltr">SharePou</span>
           <span class="card__desc">انتقال فایل بین موبایل و ویندوز</span>
           <span class="card__btn">مشاهده و دانلود</span>
         </a></li>
         <li class="reveal"><a class="card glass" data-p="routepou" href="#routepou">
-          <img class="card__logo" src="routepou.webp" width="384" height="384" alt="" loading="lazy" decoding="async">
+          <img class="card__logo" src="routepou.webp" width="384" height="384" alt="لوگوی RoutePou" loading="lazy" decoding="async">
           <span class="card__name" lang="en" dir="ltr">RoutePou</span>
           <span class="card__desc">برقراری ارتباط VPN بین موبایل و ویندوز</span>
           <span class="card__btn">مشاهده و دانلود</span>
         </a></li>
         <li class="reveal"><a class="card glass" data-p="printpou" href="#printpou">
-          <img class="card__logo" src="printpou.webp" width="384" height="384" alt="" loading="lazy" decoding="async">
+          <img class="card__logo" src="printpou.webp" width="384" height="384" alt="لوگوی PrintPou" loading="lazy" decoding="async">
           <span class="card__name" lang="en" dir="ltr">PrintPou</span>
           <span class="card__desc">چاپ مستقیم از موبایل با پرینتر متصل به ویندوز</span>
           <span class="card__btn">مشاهده و دانلود</span>
         </a></li>
         <li class="reveal"><a class="card glass" data-p="connectpou" href="#connectpou">
-          <img class="card__logo" src="connectpou.webp" width="384" height="384" alt="" loading="lazy" decoding="async">
+          <img class="card__logo" src="connectpou.webp" width="384" height="384" alt="لوگوی ConnectPou" loading="lazy" decoding="async">
           <span class="card__name" lang="en" dir="ltr">ConnectPou</span>
           <span class="card__desc">VPN اختصاصی برای اندروید و ویندوز</span>
           <span class="card__btn">مشاهده و دانلود</span>
@@ -96,6 +115,18 @@
       </ul>
     </div></section>
 
+    <section class="section" id="faq" aria-labelledby="faq-title"><div class="container">
+      <header class="head reveal"><h2 id="faq-title">سؤالات متداول</h2></header>
+      <div class="faq">
+        <details class="glass reveal"><summary><h3>PouOne (پوان) چیست؟</h3></summary><p class="a">PouOne مجموعه‌ای از ابزارهای کاربردی و هوشمند برای ساده‌تر کردن ارتباط میان دستگاه‌هاست. چهار محصول آن SharePou، RoutePou، PrintPou و ConnectPou هستند.</p></details>
+        <details class="glass reveal"><summary><h3>چطور فایل را بین موبایل و ویندوز منتقل کنم؟</h3></summary><p class="a">با SharePou می‌توانید فایل‌ها را بین موبایل و ویندوز جابه‌جا کنید. نسخه اندروید یا ویندوز را از صفحه‌ی محصول دانلود کنید.</p></details>
+        <details class="glass reveal"><summary><h3>ConnectPou چیست؟</h3></summary><p class="a">ConnectPou یک VPN اختصاصی برای اندروید و ویندوز است و از خانواده‌ی محصولات Pou می‌آید.</p></details>
+        <details class="glass reveal"><summary><h3>چطور از موبایل چاپ کنم؟</h3></summary><p class="a">PrintPou امکان چاپ مستقیم از موبایل با پرینتر متصل به ویندوز را فراهم می‌کند.</p></details>
+        <details class="glass reveal"><summary><h3>محصولات PouOne روی چه سیستم‌هایی کار می‌کنند؟</h3></summary><p class="a">محصولات PouOne برای اندروید و ویندوز عرضه می‌شوند. لینک دانلود هر نسخه در صفحه‌ی همان محصول قرار می‌گیرد.</p></details>
+        <details class="glass reveal"><summary><h3>چطور با پشتیبانی در ارتباط باشم؟</h3></summary><p class="a">از طریق تلگرام به آیدی DellFarsi یا با ایمیل farrokhzad743@gmail.com پیام بدهید.</p></details>
+      </div>
+    </div></section>
+
     <section class="section" id="contact" aria-labelledby="contact-title"><div class="container">
       <div class="contact glass reveal">
         <h2 id="contact-title">ارتباط با ما</h2>
@@ -104,9 +135,9 @@
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
           <span>پیام در تلگرام</span><span class="tg-id" lang="en" dir="ltr">@DellFarsi</span>
         </a>
-        <a class="btn btn--mail" href="mailto:farrokhzad743@gmail.com">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-          <span>ارسال ایمیل</span><span class="tg-id" lang="en" dir="ltr">farrokhzad743@gmail.com</span>
+        <a class="btn btn--mail" href="mailto:farrokhzad743@gmail.com" aria-label="ارسال ایمیل">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <span class="tg-id" lang="en" dir="ltr">farrokhzad743@gmail.com</span>
         </a>
       </div>
     </div></section>

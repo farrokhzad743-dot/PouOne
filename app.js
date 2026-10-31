@@ -31,6 +31,9 @@
 
   /* صفحه محصول (مسیر جدید: #نام-محصول) */
   var metaDesc=$('meta[name="description"]'),baseDesc=metaDesc?metaDesc.content:"";
+  var shareT=d.querySelectorAll('meta[property="og:title"],meta[name="twitter:title"]'),shareD=d.querySelectorAll('meta[property="og:description"],meta[name="twitter:description"]');
+  var baseShareT=shareT.length?shareT[0].content:"",baseShareD=shareD.length?shareD[0].content:"";
+  function setShare(t,desc){shareT.forEach(function(m){m.content=t});shareD.forEach(function(m){m.content=desc})}
   var home=$("#home"),pv=$("#pv"),baseTitle=d.title,wasProduct=false,cameFromHome=false,booted=false,savedY=null;
   function safe(u){return typeof u==="string"&&(/^https:\/\//i.test(u)||/^[\w\-.]+$/.test(u))}
   function el(tag,cls,txt){var n=d.createElement(tag);if(cls)n.className=cls;if(txt)n.textContent=txt;return n}
@@ -68,12 +71,12 @@
     if(Object.prototype.hasOwnProperty.call(P,id)){
       if(!wasProduct){cameFromHome=booted;savedY=scrollY}
       home.hidden=true;pv.hidden=false;fill(id);
-      d.title=P[id].name+" | PouOne";if(metaDesc)metaDesc.content=P[id].description;
+      d.title=P[id].name+" | PouOne";if(metaDesc)metaDesc.content=P[id].description;setShare(d.title,P[id].description);
       pv.classList.remove("enter");void pv.offsetWidth;pv.classList.add("enter");
       scrollTo({top:0,behavior:"instant"});
       wasProduct=true;
     }else{
-      pv.hidden=true;home.hidden=false;d.title=baseTitle;if(metaDesc)metaDesc.content=baseDesc;
+      pv.hidden=true;home.hidden=false;d.title=baseTitle;if(metaDesc)metaDesc.content=baseDesc;setShare(baseShareT,baseShareD);
       var t=id&&d.getElementById(id);
       if(wasProduct&&cameFromHome&&savedY!==null)scrollTo({top:savedY,behavior:"instant"});
       else scrollTo(t?{top:t.getBoundingClientRect().top+scrollY-96,behavior:wasProduct?"instant":"smooth"}:{top:0,behavior:wasProduct?"instant":"smooth"});
@@ -87,6 +90,56 @@
   $(".pv__back").addEventListener("click",function(e){
     if(cameFromHome){e.preventDefault();history.back()}
   });
+
+  /* ---- انیمیشن‌های بیشتر (فقط transform و opacity؛ سبک) ---- */
+  var calm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+
+  /* تیتر: ظاهر شدن کلمه‌به‌کلمه */
+  var h1=$(".hero h1");
+  if(h1){
+    if(!calm){
+      var words=h1.textContent.trim().split(/\s+/);h1.textContent="";
+      words.forEach(function(w,i){
+        var o=el("span","w"+(i>=words.length-2?" hl":"")),sp=el("span","",w);
+        sp.style.setProperty("--i",i);o.appendChild(sp);h1.appendChild(o);
+        if(i<words.length-1)h1.appendChild(d.createTextNode(" "));
+      });
+    }
+    h1.classList.add("split");
+  }
+
+  /* نوار پیشرفت اسکرول */
+  var bar=$("#progress"),tick=false;
+  function prog(){tick=false;var h=root.scrollHeight-innerHeight;bar.style.setProperty("transform","scaleX("+(h>0?Math.min(scrollY/h,1):0).toFixed(4)+")")}
+  addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(prog)}},{passive:true});
+  prog();
+
+  /* ویژه موس (ویندوز/دسکتاپ): پارالکس هیرو، شیب و نور کارت‌ها، دکمه‌های مغناطیسی */
+  if(fine&&!calm){
+    var vis=$(".hero__visual"),raf=0,nx=0,ny=0;
+    addEventListener("pointermove",function(e){
+      nx=e.clientX/innerWidth-.5;ny=e.clientY/innerHeight-.5;
+      if(raf)return;
+      raf=requestAnimationFrame(function(){raf=0;if(vis&&!home.hidden&&scrollY<innerHeight){vis.style.setProperty("--px",(nx*2).toFixed(3));vis.style.setProperty("--py",(ny*2).toFixed(3))}});
+    },{passive:true});
+    d.querySelectorAll(".card").forEach(function(c){
+      c.addEventListener("pointermove",function(e){
+        var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+        c.style.setProperty("--mx",(x*100).toFixed(1)+"%");c.style.setProperty("--my",(y*100).toFixed(1)+"%");
+        c.style.setProperty("--rx",((.5-y)*7).toFixed(2)+"deg");c.style.setProperty("--ry",((x-.5)*7).toFixed(2)+"deg");
+      });
+      c.addEventListener("pointerleave",function(){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")});
+    });
+    d.querySelectorAll(".btn--primary,.btn--tg").forEach(function(b){
+      b.addEventListener("pointermove",function(e){
+        var r=b.getBoundingClientRect();
+        b.style.setProperty("--tx",(((e.clientX-r.left)/r.width-.5)*10).toFixed(1)+"px");
+        b.style.setProperty("--ty",(((e.clientY-r.top)/r.height-.5)*8).toFixed(1)+"px");
+      });
+      b.addEventListener("pointerleave",function(){b.style.setProperty("--tx","0px");b.style.setProperty("--ty","0px")});
+    });
+  }
 
   $("#year").textContent=new Date().getFullYear();
 })();

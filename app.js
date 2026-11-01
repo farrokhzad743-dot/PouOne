@@ -42,6 +42,33 @@
   }
   function el(tag,cls,txt){var n=d.createElement(tag);if(cls)n.className=cls;if(txt)n.textContent=txt;return n}
 
+  function copyText(t,b){
+    function done(){b.textContent="کپی شد";setTimeout(function(){b.textContent="کپی"},1600)}
+    function legacy(){
+      var ta=d.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";
+      d.body.appendChild(ta);ta.select();try{d.execCommand("copy");done()}catch(e){}d.body.removeChild(ta);
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,legacy);else legacy();
+  }
+  function buildVerify(dl){
+    var vf=$("#pv-verify");vf.textContent="";
+    var ver=typeof dl.version==="string"?dl.version.trim():"",hs=dl.sha256||{},rows=0;
+    if(ver)vf.appendChild(el("p","verify__ver","نسخه‌ی "+ver));
+    [["android","اندروید"],["windows","ویندوز"]].forEach(function(o){
+      var v=hs[o[0]];
+      if(typeof v==="string"&&/^[a-f0-9]{64}$/i.test(v.trim())){
+        v=v.trim();rows++;
+        var r=el("div","hash"),c=el("code","",v),b=el("button","","کپی");b.type="button";
+        r.appendChild(el("b","",o[1]));r.appendChild(c);r.appendChild(b);vf.appendChild(r);
+        b.addEventListener("click",function(){copyText(v,b)});
+      }else if(v&&window.console)console.warn("PouOne: هش SHA-256 باید ۶۴ کاراکتر هگز باشد:",o[0]);
+    });
+    if(rows){
+      var tip=el("p","verify__tip","هش فایل دانلودشده را با مقدار بالا مقایسه کنید. در ویندوز: ");
+      tip.appendChild(el("code","","certutil -hashfile نام‌فایل SHA256"));vf.appendChild(tip);
+    }
+    vf.hidden=!(ver||rows);
+  }
   function fill(id){
     var p=P[id],card=$('.card[data-p="'+id+'"]');
     pv.setAttribute("data-p",id);
@@ -60,6 +87,7 @@
       else{a.textContent="به‌زودی: "+o[1];a.setAttribute("aria-disabled","true")}
       box.appendChild(a);
     });
+    buildVerify(dl);
     var more=$("#pv-more");more.textContent="";
     Object.keys(P).forEach(function(k){
       if(k===id)return;
@@ -82,14 +110,26 @@
     if(c){P[id]={name:$(".card__name",c).textContent,description:$(".card__desc",c).textContent,uses:[]};return true}
     return false;
   }
-  var lastId="";
+  var lastId="",legal=$("#legal");
+  function restart(n){n.classList.remove("enter");void n.offsetWidth;n.classList.add("enter")}
+  function enter(){if(!wasProduct){cameFromHome=booted;savedY=scrollY}}
   function route(){
     var id=readHash();
+    if(id==="privacy"){
+      enter();home.hidden=true;pv.hidden=true;legal.hidden=false;lastId="privacy";
+      d.title="حریم خصوصی | PouOne";
+      var pd="حریم خصوصی وب‌سایت PouOne: چه اطلاعاتی جمع نمی‌شود و از چه سرویس‌های بیرونی استفاده شده است.";
+      if(metaDesc)metaDesc.content=pd;setShare(d.title,pd);
+      restart(legal);scrollTo({top:0,behavior:"instant"});
+      if(booted)$("#legal-title").focus({preventScroll:true});
+      wasProduct=true;return;
+    }
+    legal.hidden=true;
     if(known(id)){
-      if(!wasProduct){cameFromHome=booted;savedY=scrollY}
+      enter();
       home.hidden=true;pv.hidden=false;fill(id);lastId=id;
       d.title=P[id].name+" | PouOne";if(metaDesc)metaDesc.content=P[id].description;setShare(d.title,P[id].description);
-      pv.classList.remove("enter");void pv.offsetWidth;pv.classList.add("enter");
+      restart(pv);
       scrollTo({top:0,behavior:"instant"});
       if(booted)$("#pv-title").focus({preventScroll:true});
       wasProduct=true;
@@ -98,7 +138,7 @@
       var t=id&&/^[\w-]+$/.test(id)&&d.getElementById(id);
       if(wasProduct&&cameFromHome&&savedY!==null)scrollTo({top:savedY,behavior:"instant"});
       else scrollTo(t?{top:t.getBoundingClientRect().top+scrollY-96,behavior:wasProduct?"instant":"smooth"}:{top:0,behavior:wasProduct?"instant":"smooth"});
-      if(wasProduct&&lastId){var cd=$('.card[data-p="'+lastId+'"]');if(cd)cd.focus({preventScroll:true})}
+      if(wasProduct&&lastId){var cd=lastId==="privacy"?$(".legal-link"):$('.card[data-p="'+lastId+'"]');if(cd)cd.focus({preventScroll:true})}
       wasProduct=false;cameFromHome=false;
     }
   }
@@ -107,10 +147,10 @@
 
   /* «بازگشت»: اگر از صفحه اصلی آمده‌ایم، یک قدم عقب می‌رویم تا تاریخچه دوبل نشود */
   var skip=$(".skip-link");
-  if(skip)skip.addEventListener("click",function(e){if(!pv.hidden){e.preventDefault();$("#pv-title").focus()}});
-  $(".pv__back").addEventListener("click",function(e){
+  if(skip)skip.addEventListener("click",function(e){if(!pv.hidden){e.preventDefault();$("#pv-title").focus()}else if(!legal.hidden){e.preventDefault();$("#legal-title").focus()}});
+  d.querySelectorAll(".pv__back").forEach(function(a){a.addEventListener("click",function(e){
     if(cameFromHome){e.preventDefault();history.back()}
-  });
+  })});
 
   /* ---- انیمیشن‌های بیشتر (فقط transform و opacity؛ سبک) ---- */
   var calm=matchMedia("(prefers-reduced-motion: reduce)").matches;

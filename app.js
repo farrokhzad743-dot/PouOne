@@ -1,3 +1,4 @@
+/* PouOne — © 2026 Farrokhzad Parvareh. All rights reserved. */
 (function(){
   "use strict";
   var d=document,root=d.documentElement,cfg=window.POUONE_CONFIG||{},P=window.POUONE_PRODUCTS||{};
@@ -137,7 +138,7 @@
       pv.hidden=true;home.hidden=false;d.title=baseTitle;if(metaDesc)metaDesc.content=baseDesc;setShare(baseShareT,baseShareD);
       var t=id&&/^[\w-]+$/.test(id)&&d.getElementById(id);
       if(wasProduct&&cameFromHome&&savedY!==null)scrollTo({top:savedY,behavior:"instant"});
-      else scrollTo(t?{top:t.getBoundingClientRect().top+scrollY-96,behavior:wasProduct?"instant":"smooth"}:{top:0,behavior:wasProduct?"instant":"smooth"});
+      else scrollTo(t?{top:t.getBoundingClientRect().top+scrollY-72,behavior:wasProduct?"instant":"smooth"}:{top:0,behavior:wasProduct?"instant":"smooth"});
       if(wasProduct&&lastId){var cd=lastId==="privacy"?$(".legal-link"):$('.card[data-p="'+lastId+'"]');if(cd)cd.focus({preventScroll:true})}
       wasProduct=false;cameFromHome=false;
     }

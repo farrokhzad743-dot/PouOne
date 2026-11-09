@@ -1,5 +1,7 @@
 # PouOne — وب‌سایت
 
+مالک و صاحب اثر: **Farrokhzad Parvareh** — © 2026، همه‌ی حقوق محفوظ است (فایل `LICENSE`).
+
 وب‌سایت تک‌صفحه‌ای و استاتیک مجموعه PouOne با محصولات SharePou، RoutePou، PrintPou و ConnectPou.
 
 - فقط HTML + CSS + JavaScript، بدون بک‌اند و بدون ابزار Build
@@ -17,6 +19,8 @@ app.js       منطق صفحه و مسیریابی
 config.js    لینک‌های دانلود (اینجا ویرایش کنید)
 products.js  متن کامل محصولات
 *.webp *.png لوگوها و آیکون‌ها
+CNAME  sitemap.xml  robots.txt  manifest.webmanifest  humans.txt  LICENSE  دامنه، سئو و مالکیت
+footer-logo.webp  عکس فوتر (لینک کانال تلگرام)
 ```
 
 ## انیمیشن و سئو
@@ -43,3 +47,37 @@ products.js  متن کامل محصولات
 ## ارتباط با ما
 
 دکمه‌های تلگرام و ایمیل در `index.html` (بخش `contact`) تعریف شده‌اند.
+
+## انتشار روی ریپوی جدید با دامنه‌ی pouone.ir
+
+1. روی گیت‌هاب یک ریپوی جدید بسازید (مثلاً `PouOne`) و همه‌ی فایل‌های همین پوشه را در ریشه‌ی آن بگذارید:
+   ```
+   git init -b main
+   git add -A && git commit -m "PouOne website"
+   git remote add origin https://github.com/farrokhzad743-dot/PouOne.git
+   git push -u origin main
+   ```
+2. Settings ← Pages ← Source: *Deploy from a branch* ← `main` / `/ (root)`. فایل `CNAME` (حاوی `pouone.ir`) از قبل آماده است. بعد از صدور گواهی، گزینه‌ی **Enforce HTTPS** را روشن کنید.
+3. در DNS دامنه‌ی `pouone.ir`:
+   - چهار رکورد `A` برای ریشه (`@`): `185.199.108.153` ، `185.199.109.153` ، `185.199.110.153` ، `185.199.111.153`
+   - یک رکورد `CNAME` برای `www` به `farrokhzad743-dot.github.io`
+   با این تنظیم `www.pouone.ir` خودکار به `https://pouone.ir` هدایت می‌شود.
+4. بعد از فعال شدن سایت، `https://pouone.ir` را در Google Search Console ثبت کنید و `https://pouone.ir/sitemap.xml` را بفرستید.
+
+نکته: آدرس‌های `canonical`، `og:url`، `og:image`، `sitemap.xml`، `robots.txt` و داده ساختاریافته‌ی JSON-LD همگی روی `https://pouone.ir/` تنظیم شده‌اند. اگر دامنه را تغییر دادید، این فایل‌ها را هم عوض کنید.
+
+## لوگوها
+
+لوگوی تیره و روشن جدا هستند (`pouone-logo.webp` / `pouone-logo-light.webp` و `pouone-mark.webp` / `pouone-mark-light.webp`) و با تغییر حالت سایت جابه‌جا می‌شوند.
+
+## کش و نسخه‌ی فایل‌ها
+
+در `index.html` متاهای `Cache-Control`، `Pragma` و `Expires` گذاشته شده‌اند، اما مرورگرهای امروزی آن‌ها را نادیده می‌گیرند و هدرهای واقعی را گیت‌هاب پیجز تعیین می‌کند. راه مطمئن برای دیدن تغییرات بعد از انتشار، عوض کردن عدد `?v=20261109` کنار `style.css`، `app.js`، `boot.js`، `config.js`، `products.js` و `manifest.webmanifest` در `index.html` است (مثلاً هر بار تاریخ روز را بگذارید).
+
+## robots و امنیت
+
+`robots.txt` و متای `robots` فقط به ربات‌های موتور جستجو می‌گویند چه چیزی را ایندکس کنند و جلوی نفوذ را نمی‌گیرند. محافظت واقعی: 2FA روی گیت‌هاب، CSP داخل `index.html`، جلوگیری از باز شدن سایت داخل iframe (`boot.js`) و در صورت امکان Cloudflare جلوی دامنه.
+
+## سئو
+
+عنوان، توضیحات، کلمات کلیدی، داده ساختاریافته (Organization، Person مالک، WebSite، WebPage، چهار SoftwareApplication و FAQPage)، `sitemap.xml` و `manifest.webmanifest` در ریشه قرار دارند. تاریخ `lastmod` در `sitemap.xml` و `dateModified` در داده ساختاریافته را با هر انتشار به‌روز کنید.

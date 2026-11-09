@@ -1,3 +1,4 @@
+/* PouOne — © 2026 Farrokhzad Parvareh. All rights reserved. */
 /**
  * متن کامل محصولات (صفحه‌ی اختصاصی هر محصول).
  * نام، لوگو و توضیح کوتاه از خود کارت‌های index.html خوانده می‌شوند.

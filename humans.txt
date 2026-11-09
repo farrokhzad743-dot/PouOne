@@ -1,0 +1,11 @@
+/* OWNER */
+Name: Farrokhzad Parvareh
+Site: https://pouone.ir
+Contact: Telegram @DellFarsi
+Channel: https://t.me/pouone2026
+
+/* SITE */
+Last update: 2026/11/09
+Language: Persian (fa), RTL
+Standards: HTML5, CSS3, JavaScript
+Copyright: (c) 2026 Farrokhzad Parvareh. All rights reserved.

@@ -1,4 +1,7 @@
+# PouOne — © 2026 Farrokhzad Parvareh
 User-agent: *
 Allow: /
+Disallow: /README.md
+Disallow: /LICENSE
 
 Sitemap: https://pouone.ir/sitemap.xml

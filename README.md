@@ -20,7 +20,7 @@ config.js    لینک‌های دانلود (اینجا ویرایش کنید)
 products.js  متن کامل محصولات
 *.webp *.png لوگوها و آیکون‌ها
 CNAME  sitemap.xml  robots.txt  manifest.webmanifest  humans.txt  LICENSE  دامنه، سئو و مالکیت
-footer-logo.webp  عکس فوتر (لینک کانال تلگرام)
+footer-logo-blue.webp / footer-logo-gray.webp  دو لایه‌ی شفاف لوگوی فوتر (رنگ از تم)
 ```
 
 ## انیمیشن و سئو
@@ -66,9 +66,10 @@ footer-logo.webp  عکس فوتر (لینک کانال تلگرام)
 
 نکته: آدرس‌های `canonical`، `og:url`، `og:image`، `sitemap.xml`، `robots.txt` و داده ساختاریافته‌ی JSON-LD همگی روی `https://pouone.ir/` تنظیم شده‌اند. اگر دامنه را تغییر دادید، این فایل‌ها را هم عوض کنید.
 
-## لوگوها
+## لوگوها و تصاویر
 
-لوگوی تیره و روشن جدا هستند (`pouone-logo.webp` / `pouone-logo-light.webp` و `pouone-mark.webp` / `pouone-mark-light.webp`) و با تغییر حالت سایت جابه‌جا می‌شوند.
+همه‌ی تصاویر همان فایل‌های اصلی پروژه‌اند و کد با آن‌ها نوشته شده است. لوگوی سایت سفید+آبی است و در حالت روشن با فیلتر CSS رنگ می‌گیرد. لوگوی فوتر از دو لایه‌ی شفاف (`footer-logo-blue.webp` و `footer-logo-gray.webp`) ساخته شده و رنگش از متغیرهای `--fa` و `--fb` در `style.css` می‌آید؛ پس با تغییر تم هماهنگ می‌شود.
+محصولات: SharePou، RoutePou، PrintPou، ConnectPou، DocPou و PixPou (هر کدام `نام.webp`).
 
 ## کش و نسخه‌ی فایل‌ها
 

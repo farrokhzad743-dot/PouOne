@@ -24,7 +24,7 @@
 
   /* نمایش با اسکرول */
   var els=d.querySelectorAll(".reveal");
-  els.forEach(function(el,i){el.style.setProperty("--d",(i%4)*.08+"s")});
+  els.forEach(function(el,i){el.style.setProperty("--d",(i%3)*.04+"s")});
   if("IntersectionObserver" in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});
     els.forEach(function(el){io.observe(el)});
@@ -162,7 +162,7 @@
   function measure(){maxY=Math.max(root.scrollHeight-innerHeight,1)}
   function prog(){tick=false;bar.style.setProperty("transform","scaleX("+Math.min(scrollY/maxY,1).toFixed(4)+")")}
   addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(prog)}},{passive:true});
-  addEventListener("resize",measure);addEventListener("load",measure);addEventListener("hashchange",function(){setTimeout(measure,60)});
+  addEventListener("resize",measure);addEventListener("load",measure);addEventListener("hashchange",function(){requestAnimationFrame(measure)});
   measure();prog();
 
   /* انیمیشن‌های بی‌نهایت فقط وقتی روی صفحه دیده می‌شوند */

@@ -16,6 +16,8 @@ window.POUONE_CONFIG = {
     sharepou:   { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
     routepou:   { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
     printpou:   { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
-    connectpou: { android: "", windows: "", version: "", sha256: { android: "", windows: "" } }
+    connectpou: { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
+    docpou:     { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
+    pixpou:     { android: "", windows: "", version: "", sha256: { android: "", windows: "" } }
   }
 };

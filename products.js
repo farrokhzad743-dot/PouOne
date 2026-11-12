@@ -16,6 +16,7 @@ window.POUONE_PRODUCTS = {
   },
   routepou: {
     name: "RoutePou",
+    website: "https://routepou.pouone.ir",
     description:
       "RoutePou یک ارتباط VPN میان موبایل و کامپیوتر ویندوزی برقرار می‌کند و دو دستگاه را از یک مسیر ارتباطی به هم وصل می‌کند.",
     uses: [
@@ -61,6 +62,16 @@ window.POUONE_PRODUCTS = {
       "نمایش راحت فایل‌های PowerPoint",
       "مرور اسلایدها روی اندروید و ویندوز",
       "فقط مشاهده؛ بدون امکان ویرایش"
+    ]
+  },
+  playerpou: {
+    name: "PlayerPou",
+    description:
+      "PlayerPou یک پخش‌کننده‌ی ویدیو برای اندروید و ویندوز است و از خانواده‌ی محصولات Pou می‌آید.",
+    uses: [
+      "پخش ویدیو روی اندروید",
+      "پخش ویدیو روی ویندوز",
+      "همراهی با سایر محصولات خانواده Pou"
     ]
   }
 };

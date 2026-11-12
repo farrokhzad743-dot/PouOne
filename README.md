@@ -2,7 +2,7 @@
 
 مالک و صاحب اثر: **Farrokhzad Parvareh** — © 2026، همه‌ی حقوق محفوظ است (فایل `LICENSE`).
 
-وب‌سایت تک‌صفحه‌ای و استاتیک مجموعه PouOne با محصولات SharePou، RoutePou، PrintPou و ConnectPou.
+وب‌سایت تک‌صفحه‌ای و استاتیک مجموعه PouOne با محصولات SharePou، RoutePou، PrintPou، ConnectPou، DocPou، PixPou و PlayerPou.
 
 - فقط HTML + CSS + JavaScript، بدون بک‌اند و بدون ابزار Build
 - فارسی و راست‌چین، طراحی مینیمال و شیشه‌ای، حالت روشن و تیره (دکمه‌ی آیکونی)
@@ -20,7 +20,6 @@ config.js    لینک‌های دانلود (اینجا ویرایش کنید)
 products.js  متن کامل محصولات
 *.webp *.png لوگوها و آیکون‌ها
 CNAME  sitemap.xml  robots.txt  manifest.webmanifest  humans.txt  LICENSE  دامنه، سئو و مالکیت
-footer-logo-blue.webp / footer-logo-gray.webp  دو لایه‌ی شفاف لوگوی فوتر (رنگ از تم)
 ```
 
 ## انیمیشن و سئو
@@ -68,8 +67,14 @@ footer-logo-blue.webp / footer-logo-gray.webp  دو لایه‌ی شفاف لو�
 
 ## لوگوها و تصاویر
 
-همه‌ی تصاویر همان فایل‌های اصلی پروژه‌اند و کد با آن‌ها نوشته شده است. لوگوی سایت سفید+آبی است و در حالت روشن با فیلتر CSS رنگ می‌گیرد. لوگوی فوتر از دو لایه‌ی شفاف (`footer-logo-blue.webp` و `footer-logo-gray.webp`) ساخته شده و رنگش از متغیرهای `--fa` و `--fb` در `style.css` می‌آید؛ پس با تغییر تم هماهنگ می‌شود.
-محصولات: SharePou، RoutePou، PrintPou، ConnectPou، DocPou و PixPou (هر کدام `نام.webp`).
+- `pouone-logo.webp`: فقط نوشته‌ی PouOne (در هدر؛ در حالت روشن با فیلتر CSS رنگ می‌گیرد).
+- `pouone-mark.webp`: لوگوی P وسط توپک صفحه‌ی اصلی.
+- آیکون هفت محصول: `sharepou`، `routepou`، `printpou`، `connectpou`، `docpou`، `pixpou`، `playerpou` (هر کدام `نام.webp`). این‌ها دور توپک وسط صفحه می‌چرخند، روی کارت‌ها و داخل دکمه‌ها هم نمایش داده می‌شوند.
+- رنگ هر محصول در `style.css` (متغیر `--c` برای `[data-p=...]`) از روی خود آیکونش گرفته شده است.
+
+## RoutePou
+
+لینک دانلود ویندوز و اندروید در `config.js` و دکمه‌ی «بازدید از وب‌سایت» (`https://routepou.pouone.ir`) در `products.js` (فیلد `website`) تنظیم شده است. برای هر محصول دیگری هم می‌شود همین فیلد را اضافه کرد.
 
 ## کش و نسخه‌ی فایل‌ها
 

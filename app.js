@@ -70,6 +70,7 @@
     }
     vf.hidden=!(ver||rows);
   }
+  function ico(id){var i=el("img","ico");i.src=id+".webp";i.width=22;i.height=22;i.alt="";return i}
   function fill(id){
     var p=P[id],card=$('.card[data-p="'+id+'"]');
     pv.setAttribute("data-p",id);
@@ -84,10 +85,14 @@
     var dl=(cfg.downloads||{})[id]||{};
     [["android","نسخه اندروید"],["windows","نسخه ویندوز"]].forEach(function(o){
       var a=el("a","btn btn--c"),u=dl[o[0]];
-      if(safe(u)){a.href=u;a.textContent="دانلود "+o[1];a.setAttribute("download","")}
-      else{a.textContent="به‌زودی: "+o[1];a.setAttribute("aria-disabled","true")}
+      if(safe(u)){a.href=u;a.appendChild(ico(id));a.appendChild(d.createTextNode("دانلود "+o[1]));a.setAttribute("download","")}
+      else{a.appendChild(ico(id));a.appendChild(d.createTextNode("به‌زودی: "+o[1]));a.setAttribute("aria-disabled","true")}
       box.appendChild(a);
     });
+    if(typeof p.website==="string"&&/^https:\/\//i.test(p.website)){
+      var w=el("a","btn btn--site");w.href=p.website;w.target="_blank";w.rel="noopener noreferrer";
+      w.appendChild(ico(id));w.appendChild(d.createTextNode("بازدید از وب‌سایت "+p.name));box.appendChild(w);
+    }
     buildVerify(dl);
     var more=$("#pv-more");more.textContent="";
     Object.keys(P).forEach(function(k){
@@ -138,7 +143,7 @@
       pv.hidden=true;home.hidden=false;d.title=baseTitle;if(metaDesc)metaDesc.content=baseDesc;setShare(baseShareT,baseShareD);
       var t=id&&/^[\w-]+$/.test(id)&&d.getElementById(id);
       if(wasProduct&&cameFromHome&&savedY!==null)scrollTo({top:savedY,behavior:"instant"});
-      else scrollTo(t?{top:t.getBoundingClientRect().top+scrollY-72,behavior:wasProduct?"instant":"smooth"}:{top:0,behavior:wasProduct?"instant":"smooth"});
+      else scrollTo(t?{top:t.getBoundingClientRect().top+scrollY-12,behavior:wasProduct?"instant":"smooth"}:{top:0,behavior:wasProduct?"instant":"smooth"});
       if(wasProduct&&lastId){var cd=lastId==="privacy"?$(".legal-link"):$('.card[data-p="'+lastId+'"]');if(cd)cd.focus({preventScroll:true})}
       wasProduct=false;cameFromHome=false;
     }
@@ -157,14 +162,6 @@
   var calm=matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
 
-  /* نوار پیشرفت اسکرول (بدون خواندن layout در هر فریم) */
-  var bar=$("#progress"),tick=false,maxY=1;
-  function measure(){maxY=Math.max(root.scrollHeight-innerHeight,1)}
-  function prog(){tick=false;bar.style.setProperty("transform","scaleX("+Math.min(scrollY/maxY,1).toFixed(4)+")")}
-  addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(prog)}},{passive:true});
-  addEventListener("resize",measure);addEventListener("load",measure);addEventListener("hashchange",function(){requestAnimationFrame(measure)});
-  measure();prog();
-
   /* انیمیشن‌های بی‌نهایت فقط وقتی روی صفحه دیده می‌شوند */
   var heroVisible=true;
   if("IntersectionObserver" in window){
@@ -178,12 +175,11 @@
 
   /* ویژه موس (ویندوز/دسکتاپ): پارالکس نرم هیرو، شیب و نور کارت‌ها، دکمه‌های مغناطیسی */
   if(fine&&!calm){
-    var vis=$(".hero__visual"),art=$(".hero__art"),chips=[].slice.call(d.querySelectorAll(".hero__visual .chip"));
-    var ks=chips.map(function(c){return parseFloat(getComputedStyle(c).getPropertyValue("--k"))||0});
+    var vis=$(".hero__visual"),art=$(".hero__art"),orb=$(".orbit");
     var tx=0,ty=0,cx=0,cy=0,run=false;
     function loop(){
       cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;
-      for(var i=0;i<chips.length;i++)chips[i].style.translate=(cx*ks[i]).toFixed(2)+"px "+(cy*ks[i]).toFixed(2)+"px";
+      orb.style.translate=(cx*16).toFixed(2)+"px "+(cy*16).toFixed(2)+"px";
       art.style.translate=(cx*-8).toFixed(2)+"px "+(cy*-8).toFixed(2)+"px";
       if((Math.abs(tx-cx)>.002||Math.abs(ty-cy)>.002)&&heroVisible)requestAnimationFrame(loop);else run=false;
     }

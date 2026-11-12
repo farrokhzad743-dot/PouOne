@@ -14,10 +14,11 @@
 window.POUONE_CONFIG = {
   downloads: {
     sharepou:   { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
-    routepou:   { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
+    routepou:   { android: "https://routepou.pouone.ir/RoutePou-android.apk", windows: "https://routepou.pouone.ir/RoutePou-windows-x64.exe", version: "", sha256: { android: "", windows: "" } },
     printpou:   { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
     connectpou: { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
     docpou:     { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
-    pixpou:     { android: "", windows: "", version: "", sha256: { android: "", windows: "" } }
+    pixpou:     { android: "", windows: "", version: "", sha256: { android: "", windows: "" } },
+    playerpou:  { android: "", windows: "", version: "", sha256: { android: "", windows: "" } }
   }
 };

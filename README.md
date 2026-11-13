@@ -68,8 +68,8 @@ CNAME  sitemap.xml  robots.txt  manifest.webmanifest  humans.txt  LICENSE  دا�
 ## لوگوها و تصاویر
 
 - `pouone-logo.webp`: فقط نوشته‌ی PouOne (در هدر؛ در حالت روشن با فیلتر CSS رنگ می‌گیرد).
-- `pouone-mark.webp`: لوگوی P وسط توپک صفحه‌ی اصلی.
-- آیکون هفت محصول: `sharepou`، `routepou`، `printpou`، `connectpou`، `docpou`، `pixpou`، `playerpou` (هر کدام `نام.webp`). این‌ها دور توپک وسط صفحه می‌چرخند، روی کارت‌ها و داخل دکمه‌ها هم نمایش داده می‌شوند.
+- `pouone-mark.webp`: لوگوی P (فعلاً در صفحه استفاده نمی‌شود؛ توپک وسط هیرو حذف شده است).
+- آیکون هفت محصول: `sharepou`، `routepou`، `printpou`، `connectpou`، `docpou`، `pixpou`، `playerpou` (هر کدام `نام.webp`). روی کارت‌ها و صفحه‌ی هر محصول نمایش داده می‌شوند.
 - رنگ هر محصول در `style.css` (متغیر `--c` برای `[data-p=...]`) از روی خود آیکونش گرفته شده است.
 
 ## RoutePou

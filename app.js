@@ -70,7 +70,6 @@
     }
     vf.hidden=!(ver||rows);
   }
-  function ico(id){var i=el("img","ico");i.src=id+".webp";i.width=22;i.height=22;i.alt="";return i}
   function fill(id){
     var p=P[id],card=$('.card[data-p="'+id+'"]');
     pv.setAttribute("data-p",id);
@@ -85,13 +84,13 @@
     var dl=(cfg.downloads||{})[id]||{};
     [["android","نسخه اندروید"],["windows","نسخه ویندوز"]].forEach(function(o){
       var a=el("a","btn btn--c"),u=dl[o[0]];
-      if(safe(u)){a.href=u;a.appendChild(ico(id));a.appendChild(d.createTextNode("دانلود "+o[1]));a.setAttribute("download","")}
-      else{a.appendChild(ico(id));a.appendChild(d.createTextNode("به‌زودی: "+o[1]));a.setAttribute("aria-disabled","true")}
+      if(safe(u)){a.href=u;a.textContent="دانلود "+o[1];if(!/^https:/i.test(u))a.setAttribute("download","")}
+      else{a.textContent="به‌زودی: "+o[1];a.setAttribute("aria-disabled","true")}
       box.appendChild(a);
     });
     if(typeof p.website==="string"&&/^https:\/\//i.test(p.website)){
       var w=el("a","btn btn--site");w.href=p.website;w.target="_blank";w.rel="noopener noreferrer";
-      w.appendChild(ico(id));w.appendChild(d.createTextNode("بازدید از وب‌سایت "+p.name));box.appendChild(w);
+      w.textContent="بازدید از وب‌سایت "+p.name;box.appendChild(w);
     }
     buildVerify(dl);
     var more=$("#pv-more");more.textContent="";
@@ -162,33 +161,14 @@
   var calm=matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
 
-  /* انیمیشن‌های بی‌نهایت فقط وقتی روی صفحه دیده می‌شوند */
-  var heroVisible=true;
+  /* انیمیشن بی‌نهایت نوار متحرک فقط وقتی دیده می‌شود */
   if("IntersectionObserver" in window){
-    var vis0=$(".hero__visual"),mq=$(".marquee");
-    var po=new IntersectionObserver(function(es){es.forEach(function(e){
-      var off=!e.isIntersecting;
-      if(e.target===vis0){e.target.classList.toggle("off",off);heroVisible=!off}else e.target.classList.toggle("off",off);
-    })});
-    if(vis0)po.observe(vis0);if(mq)po.observe(mq);
+    var mq=$(".marquee");
+    if(mq)new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle("off",!e.isIntersecting)})}).observe(mq);
   }
 
   /* ویژه موس (ویندوز/دسکتاپ): پارالکس نرم هیرو، شیب و نور کارت‌ها، دکمه‌های مغناطیسی */
   if(fine&&!calm){
-    var vis=$(".hero__visual"),art=$(".hero__art"),orb=$(".orbit");
-    var tx=0,ty=0,cx=0,cy=0,run=false;
-    function loop(){
-      cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;
-      orb.style.translate=(cx*16).toFixed(2)+"px "+(cy*16).toFixed(2)+"px";
-      art.style.translate=(cx*-8).toFixed(2)+"px "+(cy*-8).toFixed(2)+"px";
-      if((Math.abs(tx-cx)>.002||Math.abs(ty-cy)>.002)&&heroVisible)requestAnimationFrame(loop);else run=false;
-    }
-    if(vis)addEventListener("pointermove",function(e){
-      if(!heroVisible)return;
-      tx=(e.clientX/innerWidth-.5)*2;ty=(e.clientY/innerHeight-.5)*2;
-      if(!run){run=true;requestAnimationFrame(loop)}
-    },{passive:true});
-
     d.querySelectorAll(".card").forEach(function(c){
       var r=null,px=0,py=0,q=0;
       c.addEventListener("pointerenter",function(){r=c.getBoundingClientRect()});
